@@ -4,8 +4,8 @@ services:
     build:
       context: .
     volumes:
-      - .:/usr/src/app
-    command: sh -c "cd my-react-app && yarn start"
+      - .:/usr/src/app/react-app
+    command: sh -c "yarn start"
     ports:
       - "3000:3000"
     tty: true

@@ -8,3 +8,12 @@
   margin-bottom: 20px;
   justify-content: space-between;
 }
+
+body {
+  background-color: #ffeedf;
+}
+
+.app__stats{
+  display: flex;
+  justify-content: space-between;
+}

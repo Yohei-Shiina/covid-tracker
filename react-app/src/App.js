@@ -3,6 +3,9 @@ import { MenuItem, FormControl, Select, Card, CardContent } from "@material-ui/c
 import "./App.css";
 import InfoBox from './InfoBox'
 import Map from './Map'
+import Table from './Table'
+import LineGraph from './LineGraph'
+import { sortData } from './util'
 
 const COVID_TOTAL_CASE_URL = 'https://disease.sh/v3/covid-19';
 const PATH_WORLDWIDE = '/all';
@@ -17,6 +20,18 @@ function App() {
 	const [countryCode, setCountryCode] = useState(COUNTRY_CODE_WORLDWIDE);
 	// country information
 	const [countryInfo, setCountryInfo] = useState({})
+	// table data
+	const [tableData, setTableData] = useState([])
+
+	// set worldwide data
+	useEffect(() => {
+		const getInitialCountryInfo = async () => {
+			const res = await fetch(`${COVID_TOTAL_CASE_URL + PATH_WORLDWIDE}`);
+			const data = await res.json();
+			setCountryInfo(data);
+		}
+		getInitialCountryInfo();
+	}, [])
 
 	// get countyInfo in array and set it as default 
 	useEffect(() => {
@@ -29,20 +44,13 @@ function App() {
 					value: country.countryInfo.iso2,
 				};
 			});
+
+			const sortedData = sortData(data)
+			setTableData(sortedData)
 			setCountries(countries);
 		};
 		getCountriesData();
 	}, []);
-
-	// initialize countryInfo with data of all country
-	useEffect(() => {
-		const getInitialCountryInfo = async () => {
-			const res = await fetch(`${COVID_TOTAL_CASE_URL + PATH_WORLDWIDE}`);
-			const data = await res.json();
-			setCountryInfo(data);
-		}
-		getInitialCountryInfo();
-	}, [])
 
 	// emit every time button gets clicked
 	const onCountryChange = async (event) => {
@@ -91,10 +99,10 @@ function App() {
 			<Card className="app__right">
 				<CardContent>
 					<h3>Live Cases by Country</h3>
-					{/* Graph */}
+					<Table countries={tableData} />
 					<h3>Worldwide new cases</h3>
+					<LineGraph />
 				</CardContent>
-				{/* Table */}
 			</Card>
 		</div>
 	);

@@ -63,7 +63,6 @@ function App() {
 	// emit every time button gets clicked
 	const onCountryChange = async (event) => {
 		const countryCode = event.target.value;
-		console.log(countryCode);
 		// get url to fetch country code for worldwide or specific country
 		const url = countryCode === COUNTRY_CODE_WORLDWIDE
 			? `${COVID_TOTAL_CASE_URL + PATH_WORLDWIDE}`
@@ -109,7 +108,7 @@ function App() {
 					<h3>Live Cases by Country</h3>
 					<Table countries={tableData} />
 					<h3>Worldwide new {casesType}</h3>
-					<LineGraph casesType={casesType} />
+					<LineGraph countryCode={countryCode} casesType={casesType} />
 				</CardContent>
 			</Card>
 		</div>

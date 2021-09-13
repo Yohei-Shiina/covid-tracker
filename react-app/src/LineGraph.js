@@ -4,12 +4,9 @@ import 'chartjs-adapter-date-fns';
 import numeral from 'numeral'
 
 const SEARCH_DAYS = 120;
-const WORLDWIDE_HISTORICAL_DATA_URL = `https://disease.sh/v3/covid-19/historical/all`
-const worldwideHistoricalDataUrl = new URL(WORLDWIDE_HISTORICAL_DATA_URL)
-worldwideHistoricalDataUrl.searchParams.set('lastdays', SEARCH_DAYS)
+const HISTORICAL_DATA = 'https://disease.sh/v3/covid-19/historical'
 
 const options = {
-
   elements: {
     point: {
       radius: 0
@@ -46,11 +43,10 @@ const options = {
         }
       }
     }
-
   }
 }
 
-function LineGraph({ casesType = 'cases' }) {
+function LineGraph({ countryCode, casesType = 'cases' }) {
   const [data, setData] = useState({})
 
   const buildChartData = (data) => {
@@ -66,22 +62,24 @@ function LineGraph({ casesType = 'cases' }) {
       }
       lastDataPoint = data[casesType][date];
     }
-    console.log(chartData);
     return chartData
   }
 
   useEffect(() => {
 
     const getHistoricalData = async () => {
-      const res = await fetch(worldwideHistoricalDataUrl)
+      const dataTarget = countryCode === 'worldwide' ? '/all' : `/${countryCode}`
+      const url = new URL(`${HISTORICAL_DATA}${dataTarget}`)
+      url.searchParams.set('lastdays', SEARCH_DAYS)
+      const res = await fetch(url)
       const historicalData = await res.json()
-      console.log(historicalData);
-      const chartData = buildChartData(historicalData);
+      const dataForBuildingChart = countryCode === 'worldwide' ? historicalData : historicalData.timeline
+      const chartData = buildChartData(dataForBuildingChart);
       setData(chartData)
     }
     getHistoricalData()
 
-  }, [casesType])
+  }, [countryCode, casesType])
 
   return (
     <div>

@@ -23,6 +23,9 @@ function App() {
 	// table data
 	const [tableData, setTableData] = useState([])
 
+	const [mapCenter, setMapCenter] = useState([36, 138]);
+	const [mapZoom, setMapZoom] = useState(5);
+
 	// set worldwide data
 	useEffect(() => {
 		const getInitialCountryInfo = async () => {
@@ -46,7 +49,7 @@ function App() {
 			});
 
 			const sortedData = sortData(data)
-			setTableData(sortedData)
+			setTableData(sortedData);
 			setCountries(countries);
 		};
 		getCountriesData();
@@ -62,12 +65,15 @@ function App() {
 		const res = await fetch(url)
 		const data = await res.json()
 		// update countryCode
-		setCountryCode(countryCode)
+		setCountryCode(countryCode);
 		// all of the data from the country
-		setCountryInfo(data)
+		setCountryInfo(data);
+		console.log(data);
+		console.log(data.countryInfo.lat);
+		console.log(data.countryInfo.long);
+		setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
+		setMapZoom(5);
 	}
-
-	console.log("currently selected" + countryInfo);
 
 	return (
 		<div className="app">
@@ -93,7 +99,7 @@ function App() {
 				</div>
 
 				{/* Map */}
-				<Map />
+				<Map center={mapCenter} zoom={mapZoom} />
 			</div>
 
 			<Card className="app__right">

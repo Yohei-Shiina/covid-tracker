@@ -24,7 +24,7 @@ function App() {
 	const [tableData, setTableData] = useState([])
 
 	const [mapCenter, setMapCenter] = useState([36, 138]);
-	const [mapZoom, setMapZoom] = useState(5);
+	const [mapZoom, setMapZoom] = useState(3);
 
 	// set worldwide data
 	useEffect(() => {

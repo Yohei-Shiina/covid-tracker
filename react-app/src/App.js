@@ -11,6 +11,8 @@ const COVID_TOTAL_CASE_URL = 'https://disease.sh/v3/covid-19';
 const PATH_WORLDWIDE = '/all';
 const PATH_COUNTRIES = '/countries';
 const COUNTRY_CODE_WORLDWIDE = 'worldwide';
+const DEFAULT_LAT_LONG = [36, 138]
+const DEFAULT_ZOOM_LEVEL = 3;
 
 function App() {
 
@@ -23,8 +25,10 @@ function App() {
 	// table data
 	const [tableData, setTableData] = useState([])
 
-	const [mapCenter, setMapCenter] = useState([36, 138]);
-	const [mapZoom, setMapZoom] = useState(3);
+	const [mapCenter, setMapCenter] = useState(DEFAULT_LAT_LONG);
+	const [mapZoom, setMapZoom] = useState(DEFAULT_ZOOM_LEVEL);
+	const [mapCountries, setMapCountries] = useState([]);
+	const [casesType, setCasesType] = useState("cases");
 
 	// set worldwide data
 	useEffect(() => {
@@ -43,14 +47,15 @@ function App() {
 			const data = await res.json();
 			const countries = data.map((country) => {
 				return {
-					name: country.country,
-					value: country.countryInfo.iso2,
+					name: country.country, // Japan, United States
+					value: country.countryInfo.iso2, // JP, USA
 				};
 			});
 
 			const sortedData = sortData(data)
 			setTableData(sortedData);
 			setCountries(countries);
+			setMapCountries(data)
 		};
 		getCountriesData();
 	}, []);
@@ -58,6 +63,7 @@ function App() {
 	// emit every time button gets clicked
 	const onCountryChange = async (event) => {
 		const countryCode = event.target.value;
+		console.log(countryCode);
 		// get url to fetch country code for worldwide or specific country
 		const url = countryCode === COUNTRY_CODE_WORLDWIDE
 			? `${COVID_TOTAL_CASE_URL + PATH_WORLDWIDE}`
@@ -68,13 +74,11 @@ function App() {
 		setCountryCode(countryCode);
 		// all of the data from the country
 		setCountryInfo(data);
-		console.log(data);
-		console.log(data.countryInfo.lat);
-		console.log(data.countryInfo.long);
-		setMapCenter([data.countryInfo.lat, data.countryInfo.long]);
-		setMapZoom(5);
+		const mapCenterPosition = countryCode === COUNTRY_CODE_WORLDWIDE
+			? DEFAULT_LAT_LONG : [data.countryInfo.lat, data.countryInfo.long]
+		setMapCenter(mapCenterPosition);
+		setMapZoom(3);
 	}
-
 	return (
 		<div className="app">
 			<div className="app__left">
@@ -91,23 +95,21 @@ function App() {
 						</Select>
 					</FormControl>
 				</div>
-
 				<div className="app__stats">
-					<InfoBox title="Coronavirus Cases" cases={countryInfo.todayCases} total={countryInfo.cases} />
-					<InfoBox title="Recovered" cases={countryInfo.todayRecovered} total={countryInfo.cases} />
-					<InfoBox title="Death" cases={countryInfo.todayDeaths} total={countryInfo.cases} />
+					<InfoBox isOrange isActive={casesType === "cases"} onClick={(e) => setCasesType('cases')} title="Coronavirus Cases" cases={countryInfo.todayCases} total={countryInfo.cases} />
+					<InfoBox isGreen isActive={casesType === "recovered"} onClick={(e) => setCasesType('recovered')} title="Recovered" cases={countryInfo.todayRecovered} total={countryInfo.recovered} />
+					<InfoBox isRed isActive={casesType === "deaths"} onClick={(e) => setCasesType('deaths')} title="Death" cases={countryInfo.todayDeaths} total={countryInfo.deaths} />
 				</div>
 
-				{/* Map */}
-				<Map center={mapCenter} zoom={mapZoom} />
+				<Map countries={mapCountries} casesType={casesType} center={mapCenter} zoom={mapZoom} />
 			</div>
 
 			<Card className="app__right">
 				<CardContent>
 					<h3>Live Cases by Country</h3>
 					<Table countries={tableData} />
-					<h3>Worldwide new cases</h3>
-					<LineGraph />
+					<h3>Worldwide new {casesType}</h3>
+					<LineGraph casesType={casesType} />
 				</CardContent>
 			</Card>
 		</div>

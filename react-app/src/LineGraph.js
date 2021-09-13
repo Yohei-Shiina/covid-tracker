@@ -50,22 +50,23 @@ const options = {
   }
 }
 
-function LineGraph() {
+function LineGraph({ casesType = 'cases' }) {
   const [data, setData] = useState({})
 
-  const buildChartData = (data, casesType = 'cases') => {
+  const buildChartData = (data) => {
     const chartData = [];
     let lastDataPoint;
-    for (let date in data.cases) {
+    for (let date in data[casesType]) {
       if (lastDataPoint != null) {
         const newDatapoint = {
           x: date,
-          y: data[casesType][date] - lastDataPoint
+          y: Math.abs(data[casesType][date] - lastDataPoint)
         }
         chartData.push(newDatapoint)
       }
       lastDataPoint = data[casesType][date];
     }
+    console.log(chartData);
     return chartData
   }
 
@@ -74,12 +75,13 @@ function LineGraph() {
     const getHistoricalData = async () => {
       const res = await fetch(worldwideHistoricalDataUrl)
       const historicalData = await res.json()
+      console.log(historicalData);
       const chartData = buildChartData(historicalData);
       setData(chartData)
     }
     getHistoricalData()
 
-  }, [])
+  }, [casesType])
 
   return (
     <div>

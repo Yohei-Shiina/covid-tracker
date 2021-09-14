@@ -7,11 +7,17 @@ import 'leaflet/dist/leaflet.css';
 function Map({ countries, casesType, center, zoom }) {
   const [showMap, setShowMap] = useState(true)
   const [showCircle, setShowCircle] = useState(true)
+
+  // Todo: replace these code using these
+  // https://react-leaflet.js.org/docs/api-map/ and https://leafletjs.com/reference-1.7.1.html#map-setview
+  // https://stackoverflow.com/questions/64665827/react-leaflet-center-attribute-does-not-change-when-the-center-state-changes
   // Remove MapContainer when center/zoom changes
   useEffect(() => { setShowMap(false) }, [center, zoom])
   // then render MapCotnainer with new values(center/zoom)
   useEffect(() => { setShowMap(true) }, [showMap])
 
+  // Todo: replace these code using:
+  // https://react-leaflet.js.org/docs/api-components/
   // Remove MapContainer when casesType changes
   useEffect(() => { setShowCircle(false) }, [casesType])
   // then render MapCotnainer with new values(casesType)

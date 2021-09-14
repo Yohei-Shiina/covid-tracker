@@ -15,20 +15,19 @@ const DEFAULT_LAT_LONG = [36, 138]
 const DEFAULT_ZOOM_LEVEL = 3;
 
 function App() {
-
-	// [{ name: "Afghanistan", value: "AF" }]
-	const [countries, setCountries] = useState([]);
-	// country code >> JP
-	const [countryCode, setCountryCode] = useState(COUNTRY_CODE_WORLDWIDE);
-	// country information
+	const [countries, setCountries] = useState([]); // [{ name: "Afghanistan", value: "AF" }]
+	const [countryCode, setCountryCode] = useState(COUNTRY_CODE_WORLDWIDE); // country code >> JP
 	const [countryInfo, setCountryInfo] = useState({})
-	// table data
 	const [tableData, setTableData] = useState([])
-
 	const [mapCenter, setMapCenter] = useState(DEFAULT_LAT_LONG);
 	const [mapZoom, setMapZoom] = useState(DEFAULT_ZOOM_LEVEL);
 	const [mapCountries, setMapCountries] = useState([]);
 	const [casesType, setCasesType] = useState("cases");
+
+	const recenterMapPosition = (centerPosition, zoom = 3) => {
+		setMapCenter(centerPosition);
+		setMapZoom(zoom);
+	}
 
 	// set worldwide data
 	useEffect(() => {
@@ -40,7 +39,6 @@ function App() {
 		getInitialCountryInfo();
 	}, [])
 
-	// get countyInfo in array and set it as default 
 	useEffect(() => {
 		const getCountriesData = async () => {
 			const res = await fetch(COVID_TOTAL_CASE_URL + PATH_COUNTRIES);
@@ -51,7 +49,6 @@ function App() {
 					value: country.countryInfo.iso2, // JP, USA
 				};
 			});
-
 			const sortedData = sortData(data)
 			setTableData(sortedData);
 			setCountries(countries);
@@ -60,24 +57,22 @@ function App() {
 		getCountriesData();
 	}, []);
 
-	// emit every time button gets clicked
 	const onCountryChange = async (event) => {
 		const countryCode = event.target.value;
-		// get url to fetch country code for worldwide or specific country
 		const url = countryCode === COUNTRY_CODE_WORLDWIDE
 			? `${COVID_TOTAL_CASE_URL + PATH_WORLDWIDE}`
 			: `${COVID_TOTAL_CASE_URL + PATH_COUNTRIES}/${countryCode}`
 		const res = await fetch(url)
 		const data = await res.json()
-		// update countryCode
-		setCountryCode(countryCode);
-		// all of the data from the country
-		setCountryInfo(data);
 		const mapCenterPosition = countryCode === COUNTRY_CODE_WORLDWIDE
 			? DEFAULT_LAT_LONG : [data.countryInfo.lat, data.countryInfo.long]
-		setMapCenter(mapCenterPosition);
-		setMapZoom(3);
+
+		setCountryCode(countryCode);
+		setCountryInfo(data);
+		recenterMapPosition(mapCenterPosition, 5)
+
 	}
+
 	return (
 		<div className="app">
 			<div className="app__left">
@@ -108,7 +103,7 @@ function App() {
 					<h3>Live Cases by Country</h3>
 					<Table countries={tableData} />
 					<h3>Worldwide new {casesType}</h3>
-					<LineGraph countryCode={countryCode} casesType={casesType} />
+					<LineGraph casesType={casesType} />
 				</CardContent>
 			</Card>
 		</div>

@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react'
+import numeral from 'numeral'
 import { Line } from 'react-chartjs-2';
 import 'chartjs-adapter-date-fns';
-import numeral from 'numeral'
 
 const SEARCH_DAYS = 120;
-const HISTORICAL_DATA = 'https://disease.sh/v3/covid-19/historical'
+const HISTORICAL_DATA = 'https://disease.sh/v3/covid-19/historical';
+const PATH_WORLDWIDE = '/all';
 
 const options = {
   elements: {
@@ -46,8 +47,8 @@ const options = {
   }
 }
 
-function LineGraph({ countryCode, casesType = 'cases' }) {
-  const [data, setData] = useState({})
+function LineGraph({ casesType }) {
+  const [chartData, setChartData] = useState([])
 
   const buildChartData = (data) => {
     const chartData = [];
@@ -66,28 +67,24 @@ function LineGraph({ countryCode, casesType = 'cases' }) {
   }
 
   useEffect(() => {
-
     const getHistoricalData = async () => {
-      const dataTarget = countryCode === 'worldwide' ? '/all' : `/${countryCode}`
-      const url = new URL(`${HISTORICAL_DATA}${dataTarget}`)
+      const url = new URL(`${HISTORICAL_DATA}${PATH_WORLDWIDE}`)
       url.searchParams.set('lastdays', SEARCH_DAYS)
       const res = await fetch(url)
       const historicalData = await res.json()
-      const dataForBuildingChart = countryCode === 'worldwide' ? historicalData : historicalData.timeline
-      const chartData = buildChartData(dataForBuildingChart);
-      setData(chartData)
+      const chartData = buildChartData(historicalData);
+      setChartData(chartData)
     }
     getHistoricalData()
-
-  }, [countryCode, casesType])
+  }, [casesType])
 
   return (
     <div>
-      {data.length > 0 && (
+      {chartData.length > 0 && (
         <Line data={{
           datasets: [
             {
-              data: data,
+              data: chartData,
               backgroundColor: 'rgba(204, 16, 52, 0.3)',
               borderColor: '#CC1034',
               fill: true,

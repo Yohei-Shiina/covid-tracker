@@ -30,7 +30,7 @@ export const prettyPrintStat = (stat) => {
 // Draw circles on the map with interactive tooltip
 export const showDataOnMap = (data, casesType = 'cases') => {
 
-  return data.map((country) => {
+  return data.map((country, index) => {
     return (
       <Circle
         center={[country.countryInfo.lat, country.countryInfo.long]}
@@ -40,6 +40,7 @@ export const showDataOnMap = (data, casesType = 'cases') => {
         radius={
           Math.sqrt(country[casesType]) * casesTypeColors[casesType].multiplier
         }
+        key={index}
       >
         <Popup>
           <div className="info-container">
@@ -53,4 +54,44 @@ export const showDataOnMap = (data, casesType = 'cases') => {
       </Circle>
     )
   })
+}
+
+export const lineGraphOption = {
+  elements: {
+    point: {
+      radius: 0
+    }
+  },
+  plugins: {
+    legend: {
+      display: false,
+    },
+    tooltip: {
+      mode: "index",
+      intersect: false,
+      callbacks: {
+        label: function (tooltipItem) {
+          return numeral(tooltipItem.formattedValue).format("+0,0")
+        }
+      }
+    }
+  },
+  scales: {
+    x: {
+      time: {
+        format: "MM/DD/YY",
+      }
+    },
+    y: {
+      grid: {
+        display: false
+      },
+      ticks: {
+        // include a dollar sign in the ticks
+        callback: function (value) {
+          return numeral(value).format("0a")
+        }
+      }
+    }
+  }
 }

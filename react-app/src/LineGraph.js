@@ -1,55 +1,19 @@
 import React, { useState, useEffect } from 'react'
-import numeral from 'numeral'
 import { Line } from 'react-chartjs-2';
 import 'chartjs-adapter-date-fns';
+import { lineGraphOption } from './util';
 
 const SEARCH_DAYS = 120;
 const HISTORICAL_DATA = 'https://disease.sh/v3/covid-19/historical';
 const PATH_WORLDWIDE = '/all';
 
-const options = {
-  elements: {
-    point: {
-      radius: 0
-    }
-  },
-  plugins: {
-    legend: {
-      display: false,
-    },
-    tooltip: {
-      mode: "index",
-      intersect: false,
-      callbacks: {
-        label: function (tooltipItem) {
-          return numeral(tooltipItem.formattedValue).format("+0,0")
-        }
-      }
-    }
-  },
-  scales: {
-    x: {
-      time: {
-        format: "MM/DD/YY",
-      }
-    },
-    y: {
-      grid: {
-        display: false
-      },
-      ticks: {
-        // include a dollar sign in the ticks
-        callback: function (value) {
-          return numeral(value).format("0a")
-        }
-      }
-    }
-  }
-}
-
 function LineGraph({ casesType }) {
   const [chartData, setChartData] = useState([])
-
+  /**
+   * create data in array for LineGraph using data fetched from api
+   * @param {object} data 
+   * @returns {array} [{x: string, y: number}, ...]
+   */
   const buildChartData = (data) => {
     const chartData = [];
     let lastDataPoint;
@@ -91,7 +55,7 @@ function LineGraph({ casesType }) {
             }
           ]
         }}
-          options={options}
+          options={lineGraphOption}
         />
       )}
     </div>

@@ -24,6 +24,12 @@ function App() {
 	const [mapCountries, setMapCountries] = useState([]);
 	const [casesType, setCasesType] = useState("cases");
 
+	/**
+	 * recentering and rezoom map
+	 * @param {array} centerPosition [lat, long]
+	 * @param {number} zoom 
+	 * @return {void} 
+	 */
 	const recenterMapPosition = (centerPosition, zoom = 3) => {
 		setMapCenter(centerPosition);
 		setMapZoom(zoom);
@@ -70,7 +76,6 @@ function App() {
 		setCountryCode(countryCode);
 		setCountryInfo(data);
 		recenterMapPosition(mapCenterPosition, 5)
-
 	}
 
 	return (
@@ -94,10 +99,8 @@ function App() {
 					<InfoBox isGreen isActive={casesType === "recovered"} onClick={(e) => setCasesType('recovered')} title="Recovered" cases={countryInfo.todayRecovered} total={countryInfo.recovered} />
 					<InfoBox isRed isActive={casesType === "deaths"} onClick={(e) => setCasesType('deaths')} title="Death" cases={countryInfo.todayDeaths} total={countryInfo.deaths} />
 				</div>
-
 				<Map countries={mapCountries} casesType={casesType} center={mapCenter} zoom={mapZoom} />
 			</div>
-
 			<Card className="app__right">
 				<CardContent>
 					<h3>Live Cases by Country</h3>

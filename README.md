@@ -4,3 +4,7 @@
 ```
 docker-compose up
 ```
+
+# memo
+## optional chaining and nullish coalescing
+- https://github.com/facebook/create-react-app/pull/8526

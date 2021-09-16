@@ -4,6 +4,9 @@ import { showDataOnMap } from './util'
 import './Map.css'
 import 'leaflet/dist/leaflet.css';
 
+const TYLE_LAYER_ATTRIBUTE = '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+const TYLE_LAYER_URL = 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+
 function Map({ countries, casesType, center, zoom }) {
   const [showMap, setShowMap] = useState(false)
   const [showCircle, setShowCircle] = useState(false)
@@ -28,8 +31,8 @@ function Map({ countries, casesType, center, zoom }) {
       {showMap && (
         <MapContainer center={center} zoom={zoom}>
           <TileLayer
-            attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            attribution={TYLE_LAYER_ATTRIBUTE}
+            url={TYLE_LAYER_URL}
           />
           {showCircle && showDataOnMap(countries, casesType)}
         </MapContainer>

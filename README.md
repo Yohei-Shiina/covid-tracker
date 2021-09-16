@@ -15,13 +15,13 @@ docker-compose up
 - some APIs (Map and chart)
 
 # APIs
-- react-chartjs-2 and chart.js for the Line graph
-- react-leaflet and leaflet for the Map
-- disease.sh
+- [react-chartjs-2](http://reactchartjs.github.io/react-chartjs-2/#/) and [chart.js](https://www.chartjs.org/docs/latest/) for the Line graph
+- [react-leaflet](https://react-leaflet.js.org/) and [leaflet](https://leafletjs.com/) for the Map
+- [disease.sh](https://disease.sh/)
   - to fetch covid related data. 
   - number of recovery for a certain period is broken due to a lack of data provided by the API.
 
-# Things I actively tried:
+# Things I actively tried
 - to avoid using magic number and hard coding by assigning them into constant variables
   - so that I don't mistakenly use wrong urls to fetch data
   - and also they are easy to reuse again
@@ -32,7 +32,7 @@ docker-compose up
   - to keep my local machine clean by avoiding to have a lot of things installed for development.
   - turns out I knew it's great and now I have better understanding about docker (and k8s) used at my workplace.
 
-# Things I didn't care
+# Things I actively avoid
 - organizing files like src directory.
   - createing a runnable application was the first priority.
   - no plan to maintain this application in the future.

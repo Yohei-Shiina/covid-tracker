@@ -1,13 +1,6 @@
-### To access the node container shell
+# Getting started
+- clone this repository
+- run the command to create and start containers and start react server
 ```
-docker-compose exec node sh
+docker-compose up
 ```
-### create one time service container to execute command(s)
-```
-# example:
-docker-compose run --rm node sh -c "cd react-app && yarn"
-```
-
-# memo
-## optional chaining and nullish coalescing
-- https://github.com/facebook/create-react-app/pull/8526

@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { MenuItem, FormControl, Select, Card, CardContent } from "@material-ui/core";
-import "./App.css";
 import InfoBox from './InfoBox'
 import Map from './Map'
 import Table from './Table'
 import LineGraph from './LineGraph'
 import { sortData } from './util'
+import "./App.css";
 
 const COVID_TOTAL_CASE_URL = 'https://disease.sh/v3/covid-19';
 const PATH_WORLDWIDE = '/all';
 const PATH_COUNTRIES = '/countries';
 const COUNTRY_CODE_WORLDWIDE = 'worldwide';
-const DEFAULT_LAT_LONG = [36, 138]
-const DEFAULT_ZOOM_LEVEL = 3;
+const DEFAULT_LAT_LONG = [27, 30]
+const DEFAULT_ZOOM_LEVEL = 2;
 
 function App() {
 	const [countries, setCountries] = useState([]); // [{ name: "Afghanistan", value: "AF" }]
@@ -23,7 +23,6 @@ function App() {
 	const [mapZoom, setMapZoom] = useState(DEFAULT_ZOOM_LEVEL);
 	const [mapCountries, setMapCountries] = useState([]);
 	const [casesType, setCasesType] = useState("cases");
-
 	/**
 	 * recentering and rezoom map
 	 * @param {array} centerPosition [lat, long]
@@ -105,7 +104,7 @@ function App() {
 				<CardContent>
 					<h3>Live Cases by Country</h3>
 					<Table countries={tableData} />
-					<h3>Worldwide new {casesType}</h3>
+					<h3 className="app__worldwide">Worldwide new {casesType}</h3>
 					<LineGraph casesType={casesType} />
 				</CardContent>
 			</Card>

@@ -1,9 +1,15 @@
 .table {
+  display: block;
+  height: 400px;
   margin-top: 20px;
   overflow: scroll;
-  height: 400px;
   color: #6a5d5d;
   background-color: #fff;
+  overflow-x: hidden;
+}
+.table tbody{
+  width: 100%;
+  display: table;
 }
 
 .table tr {

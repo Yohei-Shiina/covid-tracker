@@ -3,7 +3,7 @@
 }
 
 body {
-  background-color: #ffeedf;
+  background-color: #e9e9e9;
 }
 
 .app{
@@ -19,8 +19,17 @@ body {
   justify-content: space-between;
 }
 
+.app__header > h1 {
+  color: #fc3c3c;
+  font-size: 2rem;
+}
+
 .app__left {
   flex: 0.9;
+}
+
+.app__dropdown {
+  background-color: white;
 }
 
 .app__stats{
@@ -32,4 +41,12 @@ body {
   .app{
     flex-direction: column;
   }
+  .app__right {
+    margin-top: 0.5rem;
+  }
+}
+
+.app__worldwide {
+  margin-top: 3rem;
+  margin-bottom: 1rem;
 }

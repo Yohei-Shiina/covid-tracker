@@ -7,7 +7,7 @@ const SEARCH_DAYS = 120;
 const HISTORICAL_DATA = 'https://disease.sh/v3/covid-19/historical';
 const PATH_WORLDWIDE = '/all';
 
-function LineGraph({ casesType }) {
+function LineGraph({ casesType, ...props }) {
   const [chartData, setChartData] = useState([])
   /**
    * create data in array for LineGraph using data fetched from api

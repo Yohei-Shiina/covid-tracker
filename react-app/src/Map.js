@@ -5,8 +5,8 @@ import './Map.css'
 import 'leaflet/dist/leaflet.css';
 
 function Map({ countries, casesType, center, zoom }) {
-  const [showMap, setShowMap] = useState(true)
-  const [showCircle, setShowCircle] = useState(true)
+  const [showMap, setShowMap] = useState(false)
+  const [showCircle, setShowCircle] = useState(false)
 
   // Todo: replace these code using these
   // https://react-leaflet.js.org/docs/api-map/ and https://leafletjs.com/reference-1.7.1.html#map-setview

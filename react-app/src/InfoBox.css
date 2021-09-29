@@ -3,15 +3,6 @@
   cursor: pointer;
 }
 
-@media (max-width: 480px){
-  .infoBox__title .infoBox__total {
-    font-size: 10px !important;
-  }
-  .infoBox__cases {
-    font-size: 14px;
-  }
-}
-
 .infoBox--selected {
   border-top: 10px solid greenyellow;
 }
@@ -40,13 +31,11 @@
 .infoBox__cases{
   color: #cc1034;
   font-weight: 600;
-  font-size: 1.75rem;
   margin-bottom: 0.5rem;
 }
 
 .infoBox__total{
   color: #6c757d;
   font-weight: 700;
-  font-size: 0.8rem;
   margin-bottom: 15px;
 }

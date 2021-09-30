@@ -1,3 +1,6 @@
+# COVID 19 TRACKER
+https://covid-19-tracker-1a918.web.app/
+
 # Getting started
 - clone this repository
 - run the command to create and start containers and start react server

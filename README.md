@@ -8,7 +8,7 @@ https://covid-19-tracker-1a918.web.app/
 docker-compose up
 ```
 
-# What the app loks like
+# What the app looks like
 ![スクリーンショット 2021-09-16 23 20 51](https://user-images.githubusercontent.com/35527421/133629324-4f9200b9-fa03-4f0c-b275-8a5e2b4dec3b.png)
 
 # This app is created with

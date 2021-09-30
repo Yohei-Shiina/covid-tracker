@@ -41,7 +41,8 @@ docker-compose up
   - no plan to maintain this application in the future.
 
 # deployment(TBD)
-- will be going to deploy this appllication on firebase soon
+- Used Firebase to host this app
+- https://covid-19-tracker-1a918.web.app/
 
 # Just a memo
 ## optional chaining and nullish coalescing
